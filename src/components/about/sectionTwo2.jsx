@@ -16,7 +16,7 @@ export default function SectionTwo2(params) {
             target="_blank"
             data-aos="fade-up"
             to="https://t.me/ITCenterBeshariq"
-            className="hover:bg-gray-950  !duration-[1.2s] w-[350px] rounded-xl h-[130px] gap-3 flex justify-center items-center bg-gray-900"
+            className="hover:bg-gray-950 Durations w-[350px] rounded-xl h-[130px] gap-3 flex justify-center items-center bg-gray-900"
           >
             <FaTelegram size={70} className="text-gray-400" />
             <div>
@@ -32,7 +32,7 @@ export default function SectionTwo2(params) {
             target="_blank"
             data-aos="fade-up"
             to="https://www.instagram.com/itcenterbeshariq/"
-            className="hover:bg-gray-950 transition-all duration-300 w-[350px] rounded-xl h-[130px] gap-3 flex justify-center items-center bg-gray-900"
+            className="hover:bg-gray-950 transition-all Durations w-[350px] rounded-xl h-[130px] gap-3 flex justify-center items-center bg-gray-900"
           >
             <FaInstagram size={70} className="text-gray-400" />
             <div>
@@ -46,7 +46,7 @@ export default function SectionTwo2(params) {
             target="_blank"
             data-aos="fade-up"
             to="tel:+998998375214"
-            className="hover:bg-gray-950 transition-all duration-300 w-[350px] rounded-xl h-[130px] gap-3 flex justify-center items-center bg-gray-900"
+            className="hover:bg-gray-950 transition-all Durations w-[350px] rounded-xl h-[130px] gap-3 flex justify-center items-center bg-gray-900"
           >
             <BsTelephone size={60} className="text-gray-400" />
             <div>

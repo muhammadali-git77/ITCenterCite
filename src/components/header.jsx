@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose } from "react-icons/io5";
 import { useEffect, useRef, useState } from "react";
@@ -6,6 +6,7 @@ import ITC_logo from "../assets/ITC_logo1.png";
 import ITC_logoHover from "../assets/itclogo112.png";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import clsx from "clsx";
+import { GiRotaryPhone } from "react-icons/gi";
 
 const header_items = [
   {
@@ -26,17 +27,28 @@ const header_items = [
   // },
 ];
 function NavbarMobile(params) {
-   const [active, setActive] = useState(header_items[0]);
+   const [active, setActive] = useState("/"); // Boshlang'ich holati
+
+   useEffect(() => {
+     // Brauzer URL'sini tekshiramiz
+     const path = window.location.pathname;
+
+     // Har bir sahifa uchun mos keladigan linkni tanlash
+     if (path === "/about" || path === "/staff" || path === "/") {
+       setActive(path);
+     }
+   }, []);
+
   return (
-    <div className="drawer flex lg:hidden z-30">
+    <div className="drawer lg:hidden flex z-30">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {/* Page content here */}
         <label
           htmlFor="my-drawer"
-          className="btn btn-glass h-11 w-12 sm:w-14 glass md:w-16 rounded-md flex items-center justify-center drawer-button"
+          className="bg-transparent h-11 w-12 rounded-md flex items-center justify-center drawer-button"
         >
-          <GiHamburgerMenu size={47} />
+          <GiHamburgerMenu size={38} />
         </label>
       </div>
       <div className="drawer-side">
@@ -56,20 +68,28 @@ function NavbarMobile(params) {
             </label>
           </div>
           <div className="mt-5 gap-4 flex-col flex">
-            {header_items.map((items) => (
-              <NavLink
-                to={items.url}
-                onClick={() => setActive(items)}
-                className={clsx("transition-all duration-300 !bg-transparent", {
-                  "text-white": items !== active,
-                  "text-green-500 hover:text-green-700": items === active,
-                })}
-                key={items.url}
+            {header_items.map(({ url, title }) => (
+              <Link
+                className="bg-gray-950 w-full h-[45px] rounded-lg"
+                to={url}
+                key={url}
+                onClick={() => setActive(url)}
               >
-                {items.title}
-              </NavLink>
+                <label
+                  className={clsx(
+                    "transition-all duration-300 cursor-pointer w-full h-full rounded-lg justify-center flex items-center text-xl font-[600]",
+                    {
+                      BgGreen: active === url,
+                      "bg-gray-950": active !== url,
+                    }
+                  )}
+                >
+                  {title}
+                </label>
+              </Link>
             ))}
             <Link
+              className="text-white bg-gray-950 w-full h-[45px] rounded-lg justify-center flex items-center text-xl font-[600]"
               target="_blank"
               to={
                 "https://www.google.com/maps/place/Beshariq+IT+CENTER+(Powered+by+IT+Park)/@40.4365047,70.6079505,75m/data=!3m1!1e3!4m15!1m8!3m7!1s0x38ba837e048c36ff:0x81108604fd710bc!2sBeshariq+tumani,+Farg'ona+Viloyati,+O%60zbekiston!3b1!8m2!3d40.4529596!4d70.5740886!16s%2Fm%2F012mzb4_!3m5!1s0x38ba9b043b856e75:0x95c5af26c798a0c4!8m2!3d40.4363952!4d70.6081471!16s%2Fg%2F11rtpks__z?entry=ttu"
@@ -77,12 +97,37 @@ function NavbarMobile(params) {
             >
               Joylashuv
             </Link>
+
+            <Link
+              to="tel:+998998375214"
+              className="btn glass m-1 rounded-md text-xl w-full "
+            >
+              <h1 className="flex gap-2 items-center">
+                <GiRotaryPhone size={29}/> Bizning kontakt
+              </h1>
+            </Link>
           </div>
         </ul>
       </div>
     </div>
   );
 }
+
+export const useSetActive = () => {
+  const [active, setActive] = useState("/"); // Boshlang'ich holati
+
+  useEffect(() => {
+    // Brauzer URL'sini tekshiramiz
+    const path = window.location.pathname;
+
+    // Har bir sahifa uchun mos keladigan linkni tanlash
+    if (path === "/about" || path === "/staff" || path === "/") {
+      setActive(path);
+    }
+  }, []);
+
+  return [active, setActive];
+};
 
 export default function Header() {
   const headerRef = useRef();
@@ -104,17 +149,18 @@ export default function Header() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  const [active, setActive] = useState(header_items[0]);
+  const [active, setActive] = useSetActive("/"); // Boshlang'ich holati
+
 
   return (
     <header id="headerID" ref={headerRef} className="fixed z-20 w-full">
       <div className="container justify-between flex py-1">
         <nav className="flex items-center gap-6 lg:gap-5  transition-all duration-[1.2s]">
           <div className="flex items-center ">
-            <NavbarMobile />
             <Link
               to={"/"}
-              className="items-center lg:ml-5 ml-[-45px] flex Itc_logo_hover_div "
+              onClick={() => setActive("/")}
+              className="items-center lg:ml-5 flex Itc_logo_hover_div "
             >
               <img
                 src={ITC_logo}
@@ -129,18 +175,20 @@ export default function Header() {
             </Link>
           </div>
           <ul className="gap-4 hidden  lg:flex">
-            {header_items.map((items) => (
-              <NavLink
-                to={items.url}
-                onClick={() => setActive(items)}
-                className={clsx("transition-all duration-300 !bg-transparent", {
-                  "text-white": items !== active,
-                  "text-green-500 hover:text-green-700": items === active,
-                })}
-                key={items.url}
-              >
-                {items.title}
-              </NavLink>
+            {header_items.map(({ url, title }) => (
+              <Link to={url} key={url} onClick={() => setActive(url)}>
+                <label
+                  className={clsx(
+                    "transition-all  duration-300 !bg-transparent hover:text-green-600 cursor-pointer",
+                    {
+                      "ColorGreen hover:text-green-700": active === url,
+                      "text-white": active !== url,
+                    }
+                  )}
+                >
+                  {title}
+                </label>
+              </Link>
             ))}
             <Link
               className="hover:text-green-500 transition-all duration-300 flex items-center gap-1"
@@ -154,29 +202,27 @@ export default function Header() {
             </Link>
           </ul>
         </nav>
-        <div className="items-center">
-          <div className="dropdown dropdown-end">
-            <a
-              href="tel:+998998375214"
-              className="btn glass m-1 rounded-md text-sm sm:text-md md:text-xl w-[60px] md:w-[130px]"
-            >
-              <h1>Contact us</h1>
-            </a>
+        <div className="items-center flex">
+          <NavbarMobile />
+          <div className="hidden lg:flex items-center gap-1">
             <Link
-              to={"/about"}
-              className="btn BgGreen rounded-md w-[60px] md:w-[130px]"
+              to="tel:+998998375214"
+              className="btn glass m-1 Durations rounded-md text-sm sm:text-md md:text-xl w-[60px] md:w-[130px]"
             >
-              <h1 className="btn glass rounded-md text-sm sm:text-md md:text-xl w-[60px] md:w-[130px]">
+              <h1 className="flex gap-2 items-center">
+                <GiRotaryPhone size={29} /> Kontakt
+              </h1>
+            </Link>
+            <Link
+              onClick={() => setActive("/about")}
+              to={"/about"}
+              className="btn BgGreen Durations rounded-md w-[60px] md:w-[130px]"
+            >
+              <h1 className="btn Durations hover:glass bg-transparent rounded-md text-sm sm:text-md md:text-xl w-[60px] md:w-[130px]">
                 About us
               </h1>
             </Link>
           </div>
-          {/* <Link
-            to={"/search"}
-            className="btn glass m-1 rounded-md text-lg w-12 md:w-16"
-          >
-            <IoSearch size={20} />
-          </Link> */}
         </div>
       </div>
     </header>

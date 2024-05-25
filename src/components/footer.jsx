@@ -1,22 +1,21 @@
 import { Link } from "react-router-dom";
 import ITC_logo from "../assets/ITC_logo1.png";
 import ITC_logoHover from "../assets/itclogo112.png";
+import { useSetActive } from "./header";
 
 export default function Footer(params) {
+  const [setActive] = useSetActive("/");
   return (
     <footer className="!text-gray-100 body-font">
       <div className="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
         <div className="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left md:mt-0 mt-10">
           <div className="flex title-font font-medium items-center md:justify-start justify-center text-gray-100">
             <Link
+              onClick={() => setActive("/")}
               to={"/"}
               className="items-center lg:ml-5 ml-[-45px] flex Itc_logo_hover_div "
             >
-              <img
-                src={ITC_logo}
-                alt=""
-                className="w-[60px] z-20"
-              />
+              <img src={ITC_logo} alt="" className="w-[60px] z-20" />
               <img
                 src={ITC_logoHover}
                 alt=""

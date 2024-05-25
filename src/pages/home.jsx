@@ -12,6 +12,10 @@ export default function Home(params) {
   const [movieSection, setMoviSection] = useState([]);
   
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     getModuls().then(({data}) => {
       setMoviSection(data['data']);
     })

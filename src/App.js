@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 import "./App.css";
 import Layout from "./layout/layout";
 import Home from "./pages/home";
@@ -8,7 +8,7 @@ import "aos/dist/aos.css";
 import SectionFife from "./components/common/sectionFife";
 import AboutUs from "./pages/about";
 import Staff from "./pages/staff";
-
+import ScrollToTop from "./scrolltoTop";
 
 function App() {
   useEffect(() => {
@@ -32,13 +32,15 @@ function App() {
   }, []);
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="/about" element={<AboutUs />} />
-          <Route path="/staff" element={<Staff />} />
-        </Route>
-      </Routes>
+      
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/staff" element={<Staff />} />
+          </Route>
+        </Routes>
+      
     </BrowserRouter>
   );
 }

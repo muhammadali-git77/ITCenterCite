@@ -10,8 +10,13 @@ import DurbekAka from "../assets/durbekAka.png";
 import { FaTelegram } from "react-icons/fa6";
 import { FaInstagram } from "react-icons/fa6";
 import { BsTelephone } from "react-icons/bs";
+import { useEffect } from "react";
 
 export default function Staff(params) {
+useEffect(() => {
+  window.scrollTo(0, 0);
+}, []);
+
   return (
     <div className="container mt-[70px] h-[]  BgGradient1 ">
       <div className="w-full h-full justify-center flex items-center">
