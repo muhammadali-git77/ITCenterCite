@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose } from "react-icons/io5";
 import { useEffect, useRef, useState } from "react";
@@ -21,23 +21,25 @@ const header_items = [
     title: "Xodimlar",
     url: "/staff",
   },
-  // {
-  //   title: "Joylashuv",
-  //   url: "https://www.google.com/maps/place/Beshariq+IT+CENTER+(Powered+by+IT+Park)/@40.4365047,70.6079505,75m/data=!3m1!1e3!4m15!1m8!3m7!1s0x38ba837e048c36ff:0x81108604fd710bc!2sBeshariq+tumani,+Farg'ona+Viloyati,+O%60zbekiston!3b1!8m2!3d40.4529596!4d70.5740886!16s%2Fm%2F012mzb4_!3m5!1s0x38ba9b043b856e75:0x95c5af26c798a0c4!8m2!3d40.4363952!4d70.6081471!16s%2Fg%2F11rtpks__z?entry=ttu",
-  // },
 ];
 function NavbarMobile(params) {
-   const [active, setActive] = useState("/"); // Boshlang'ich holati
+  const [active, setActive] = useState("/"); // Boshlang'ich holati
 
-   useEffect(() => {
-     // Brauzer URL'sini tekshiramiz
-     const path = window.location.pathname;
+  useEffect(() => {
+    // Brauzer URL'sini tekshiramiz
+    const path = window.location.pathname;
 
-     // Har bir sahifa uchun mos keladigan linkni tanlash
-     if (path === "/about" || path === "/staff" || path === "/") {
-       setActive(path);
-     }
-   }, []);
+    // Har bir sahifa uchun mos keladigan linkni tanlash
+    if (path === "/about" || path === "/staff" || path === "/") {
+      setActive(path);
+    }
+  }, []);
+const location = useLocation();
+
+useEffect(() => {
+  // Har safar location o'zgarganda, gamburger menyuni yopish
+  document.getElementById("my-drawer").checked = false;
+}, [location]);
 
   return (
     <div className="drawer lg:hidden flex z-30">
@@ -69,27 +71,29 @@ function NavbarMobile(params) {
           </div>
           <div className="mt-5 gap-4 flex-col flex">
             {header_items.map(({ url, title }) => (
-              <Link
-                className="bg-gray-950 w-full h-[45px] rounded-lg"
-                to={url}
-                key={url}
-                onClick={() => setActive(url)}
-              >
+              <div key={url} className="w-full h-[45px] relative">
                 <label
+                  htmlFor="my-drawer"
                   className={clsx(
-                    "transition-all duration-300 cursor-pointer w-full h-full rounded-lg justify-center flex items-center text-xl font-[600]",
+                    "w-full h-full cursor-pointer absolute top-0 left-0 flex items-center justify-center text-xl font-[600] rounded-lg transition-all duration-300",
                     {
                       BgGreen: active === url,
-                      "bg-gray-950": active !== url,
+                      "bg-gray-900": active !== url,
                     }
                   )}
+                  onClick={() => setActive(url)}
                 >
-                  {title}
+                  <Link
+                    className="w-full h-full flex items-center justify-center"
+                    to={url}
+                  >
+                    {title}
+                  </Link>
                 </label>
-              </Link>
+              </div>
             ))}
             <Link
-              className="text-white bg-gray-950 w-full h-[45px] rounded-lg justify-center flex items-center text-xl font-[600]"
+              className="text-white bg-gray-900 w-full h-[45px] rounded-lg justify-center flex items-center text-xl font-[600]"
               target="_blank"
               to={
                 "https://www.google.com/maps/place/Beshariq+IT+CENTER+(Powered+by+IT+Park)/@40.4365047,70.6079505,75m/data=!3m1!1e3!4m15!1m8!3m7!1s0x38ba837e048c36ff:0x81108604fd710bc!2sBeshariq+tumani,+Farg'ona+Viloyati,+O%60zbekiston!3b1!8m2!3d40.4529596!4d70.5740886!16s%2Fm%2F012mzb4_!3m5!1s0x38ba9b043b856e75:0x95c5af26c798a0c4!8m2!3d40.4363952!4d70.6081471!16s%2Fg%2F11rtpks__z?entry=ttu"
@@ -103,7 +107,7 @@ function NavbarMobile(params) {
               className="btn glass m-1 rounded-md text-xl w-full "
             >
               <h1 className="flex gap-2 items-center">
-                <GiRotaryPhone size={29}/> Bizning kontakt
+                <GiRotaryPhone size={29} /> Bizning kontakt
               </h1>
             </Link>
           </div>
@@ -150,7 +154,6 @@ export default function Header() {
     };
   }, []);
   const [active, setActive] = useSetActive("/"); // Boshlang'ich holati
-
 
   return (
     <header id="headerID" ref={headerRef} className="fixed z-20 w-full">
