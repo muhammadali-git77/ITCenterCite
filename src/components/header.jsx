@@ -22,18 +22,27 @@ const header_items = [
     url: "/staff",
   },
 ];
-function NavbarMobile(params) {
-  const [active, setActive] = useState("/"); // Boshlang'ich holati
+
+
+export const useSetActive = () => {
+  const [active, setActive] = useState("/");
 
   useEffect(() => {
-    // Brauzer URL'sini tekshiramiz
     const path = window.location.pathname;
-
-    // Har bir sahifa uchun mos keladigan linkni tanlash
     if (path === "/about" || path === "/staff" || path === "/") {
       setActive(path);
     }
-  }, []);
+  });
+
+  return [active, setActive];
+};
+
+
+
+function NavbarMobile(params) {
+  const [active, setActive] = useSetActive(""); // Boshlang'ich holati
+//  console.log(active);
+  
 const location = useLocation();
 
 useEffect(() => {
@@ -77,7 +86,7 @@ useEffect(() => {
                   className={clsx(
                     "w-full h-full cursor-pointer absolute top-0 left-0 flex items-center justify-center text-xl font-[600] rounded-lg transition-all duration-300",
                     {
-                      BgGreen: active === url,
+                      "BgGreen": active === url,
                       "bg-gray-900": active !== url,
                     }
                   )}
@@ -117,21 +126,6 @@ useEffect(() => {
   );
 }
 
-export const useSetActive = () => {
-  const [active, setActive] = useState("/"); // Boshlang'ich holati
-
-  useEffect(() => {
-    // Brauzer URL'sini tekshiramiz
-    const path = window.location.pathname;
-
-    // Har bir sahifa uchun mos keladigan linkni tanlash
-    if (path === "/about" || path === "/staff" || path === "/") {
-      setActive(path);
-    }
-  }, []);
-
-  return [active, setActive];
-};
 
 export default function Header() {
   const headerRef = useRef();
@@ -153,7 +147,9 @@ export default function Header() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  const [active, setActive] = useSetActive("/"); // Boshlang'ich holati
+
+  const [active, setActive] = useSetActive(""); // Boshlang'ich holati
+  //  console.log(active);
 
   return (
     <header id="headerID" ref={headerRef} className="fixed z-20 w-full">

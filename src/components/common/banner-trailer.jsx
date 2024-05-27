@@ -16,7 +16,7 @@ export default function BannerTrailerItem(props) {
       ? headerId.current?.classList.add("active")
       : headerId.current?.classList.remove("active");
   }
-  const [setActive] = useSetActive("/");
+  const [setActive] = useSetActive("/about  ");
 
   return (
     <div className=" w-full bg-white">
